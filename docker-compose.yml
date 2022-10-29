@@ -5,7 +5,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_webserver1
     build:
       context: .
-      dockerfile: ./app1/Dockerfile
+      dockerfile: ./webserver1/Dockerfile
     expose:
       - ${EXPOSED_PORT}
     networks:
@@ -16,7 +16,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_webserver2
     build:
       context: .
-      dockerfile: ./app2/Dockerfile
+      dockerfile: ./webserver2/Dockerfile
     expose:
       - ${EXPOSED_PORT}
     networks:

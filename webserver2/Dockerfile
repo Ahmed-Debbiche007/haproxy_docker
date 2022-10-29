@@ -9,7 +9,7 @@ RUN yum -y --setopt=tsflags=nodocs install \
     && yum clean all
 
 
-COPY app1/ /var/www/html
+COPY webserver2/httpd /var/www/html
 
 
 WORKDIR /var/www/html
