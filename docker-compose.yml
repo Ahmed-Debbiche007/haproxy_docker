@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  webserever1:
+    container_name: ${COMPOSE_PROJECT_NAME}_webserver1
+    build:
+      context: .
+      dockerfile: ./app1/Dockerfile
+    expose:
+      - ${EXPOSED_PORT}
+    networks:
+      public_net:
+        ipv4_address: ${WEBSERVER1}
+  
+  webserever2:
+    container_name: ${COMPOSE_PROJECT_NAME}_webserver2
+    build:
+      context: .
+      dockerfile: ./app2/Dockerfile
+    expose:
+      - ${EXPOSED_PORT}
+    networks:
+      public_net:
+        ipv4_address: ${WEBSERVER2}
+  
+  haproxy_img:
+        build: ./haproxy
+        ports:
+            - 80:80
+        expose:
+            - 80
+        networks:
+            public_net:
+                ipv4_address: ${HA_PROXY_IP}
+        environment:
+            - WEBSERVER1=${WEBSERVER1}
+            - WEBSERVER2=${WEBSERVER2}
+            - EXPOSED_PORT=${EXPOSED_PORT}
+
+networks:
+    public_net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: ${NETWORK_SUBNET}
